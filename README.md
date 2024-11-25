@@ -136,6 +136,7 @@
 
 ## Wireframes
 
-<img src="https://hackmd.io/_uploads/r16ebDGmyl.png" width=600>
+<img src="https://github.com/user-attachments/assets/9a3b83b0-a146-4480-96da-60c1c374c69d" width=600>
+![Screenshot from 2024-11-25 15-41-00])
 
 <br>
