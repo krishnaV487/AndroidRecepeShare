@@ -145,15 +145,16 @@
 # Milestone 2 - Build Sprint 1 (Unit 8)
 
 ## GitHub Project board
+![Screenshot from 2024-12-02 14-51-48](https://github.com/user-attachments/assets/43220e81-7372-4662-bc0f-5590c566c410)
 
-[Add screenshot of your Project Board with three milestones visible in
-this section]
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ## Issue cards
 
-- [Add screenshot of your Project Board with the issues that you've been working on for this unit's milestone] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
-- [Add screenshot of your Project Board with the issues that you're working on in the **NEXT sprint**. It should include issues for next unit with assigned owners.] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+- [Add screenshot of your Project Board with the issues that you've been working on for this unit's milestone] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>![Screenshot from 2024-12-02 14-52-51](https://github.com/user-attachments/assets/7b7f7be5-5bf5-4b10-b200-9ac15769c3f6)
+
+- [Add screenshot of your Project Board with the issues that you're working on in the **NEXT sprint**. It should include issues for next unit with assigned owners.] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>![Screenshot from 2024-12-02 14-52-58](https://github.com/user-attachments/assets/b2cb9c6b-dd05-4da9-ad13-3ba7d69fcd66)
+
 
 ## Issues worked on this sprint
 
