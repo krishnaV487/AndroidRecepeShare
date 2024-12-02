@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.notifications
+package com.example.myapplication.ui.groups
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.FragmentFeedBinding
 
-class FeedFragment : Fragment() {
+class GroupFragment : Fragment() {
 
     private var _binding: FragmentFeedBinding? = null
 
@@ -23,12 +23,12 @@ class FeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val notificationsViewModel =
-            ViewModelProvider(this).get(FeedViewModel::class.java)
+            ViewModelProvider(this).get(GroupViewModel::class.java)
 
         _binding = FragmentFeedBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
+        val textView: TextView = binding.textFeed
         notificationsViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }

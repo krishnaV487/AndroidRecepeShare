@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.myapplication.databinding.FragmentGroupsBinding
+import com.example.myapplication.databinding.FragmentHomeBinding
 
-class GroupsFragment : Fragment() {
+class HomeFragment : Fragment() {
 
-    private var _binding: FragmentGroupsBinding? = null
+    private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,9 +23,9 @@ class GroupsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val groupsViewModel =
-            ViewModelProvider(this).get(GroupsViewModel::class.java)
+            ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        _binding = FragmentGroupsBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
