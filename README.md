@@ -171,7 +171,10 @@
 
 - [Add giphy that shows current build progress for Milestone 2. Note: We will be looking for progression of work between Milestone 2 and 3. Make sure your giphys are not duplicated and clearly show the change from Sprint 1 to 2.]
 - As shown in below screen shots, Milestone 2 has been completed and Milestone 3 will be started. the task for next milestones have been created.
+
+- below screen shots of completed tasks
 ![Screenshot from 2024-12-02 19-21-20](https://github.com/user-attachments/assets/77eb4307-88b8-4131-afff-2e865be366e8)
+- gif showing difference between Sprint 2 and 3
 ![githubMilestoneUnit8](https://github.com/user-attachments/assets/b6f0cbf3-86d2-45ba-89ab-fb6d9af7d3c1)
 
 <br>
