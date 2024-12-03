@@ -172,8 +172,10 @@
  Screen shot from github with issue names
   - ![Screenshot from 2024-12-02 19-20-21](https://github.com/user-attachments/assets/0aa4c5ca-748d-4958-8f1b-8726a86f7f9f)
 
-**App In Progress Working: **
-[Screencast from 2024-12-02 19-14-08.webm](https://github.com/user-attachments/assets/9b3ee5d1-778e-466e-80d9-3bb5d811df7f)
+**App In Progress Working:**
+[Screencast from 2024-12-02 19-14-08.webm]<img src="https://github.com/user-attachments/assets/9b3ee5d1-778e-466e-80d9-3bb5d811df7f">
+
+CLICK HERE IF VIDEO ABOVE IS NOT WORKING: [Screencast from 2024-12-02 19-14-08.webm](https://github.com/user-attachments/assets/9b11730f-08b6-486f-9485-a487ec22feee)
 
 
 - [Add giphy that shows current build progress for Milestone 2. Note: We will be looking for progression of work between Milestone 2 and 3. Make sure your giphys are not duplicated and clearly show the change from Sprint 1 to 2.]
