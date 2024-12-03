@@ -147,19 +147,30 @@
 ## GitHub Project board
 ![Screenshot from 2024-12-02 14-51-48](https://github.com/user-attachments/assets/43220e81-7372-4662-bc0f-5590c566c410)
 
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ## Issue cards
 
-- [Add screenshot of your Project Board with the issues that you've been working on for this unit's milestone] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>![Screenshot from 2024-12-02 14-52-51](https://github.com/user-attachments/assets/7b7f7be5-5bf5-4b10-b200-9ac15769c3f6)
+- [Add screenshot of your Project Board with the issues that you've been working on for this unit's milestone] ![Screenshot from 2024-12-02 14-52-51](https://github.com/user-attachments/assets/7b7f7be5-5bf5-4b10-b200-9ac15769c3f6)
 
-- [Add screenshot of your Project Board with the issues that you're working on in the **NEXT sprint**. It should include issues for next unit with assigned owners.] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>![Screenshot from 2024-12-02 14-52-58](https://github.com/user-attachments/assets/b2cb9c6b-dd05-4da9-ad13-3ba7d69fcd66)
+- [Add screenshot of your Project Board with the issues that you're working on in the **NEXT sprint**. It should include issues for next unit with assigned owners.] ![Screenshot from 2024-12-02 14-52-58](https://github.com/user-attachments/assets/b2cb9c6b-dd05-4da9-ad13-3ba7d69fcd66)
 
 
 ## Issues worked on this sprint
 
 - List the issues you completed this sprint
+  - Navigation between three main Fragments (Dashboard, Feed, Groups)
+  - Created three main fragment classes and layouts
+  - Create a Room db
+  - Create User entity (table)
+  - Create User group table
+  - Create Recipe table
+ Screen shot from github with issue names
+  - ![Screenshot from 2024-12-02 19-20-21](https://github.com/user-attachments/assets/0aa4c5ca-748d-4958-8f1b-8726a86f7f9f)
+
 - [Add giphy that shows current build progress for Milestone 2. Note: We will be looking for progression of work between Milestone 2 and 3. Make sure your giphys are not duplicated and clearly show the change from Sprint 1 to 2.]
+- As shown in below screen shots, Milestone 2 has been completed and Milestone 3 will be started. the task for next milestones have been created.
+![Screenshot from 2024-12-02 19-21-20](https://github.com/user-attachments/assets/77eb4307-88b8-4131-afff-2e865be366e8)
+![githubMilestoneUnit8](https://github.com/user-attachments/assets/b6f0cbf3-86d2-45ba-89ab-fb6d9af7d3c1)
 
 <br>
 
