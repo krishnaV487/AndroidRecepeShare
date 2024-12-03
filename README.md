@@ -151,10 +151,13 @@
 ## Issue cards
 
 - [Add screenshot of your Project Board with the issues that you've been working on for this unit's milestone]
-  - ![Screenshot from 2024-12-02 14-52-51](https://github.com/user-attachments/assets/7b7f7be5-5bf5-4b10-b200-9ac15769c3f6)
+![Screenshot from 2024-12-02 19-32-55](https://github.com/user-attachments/assets/b8d6e2a1-f905-490a-ab2e-596670955334)
 
 - [Add screenshot of your Project Board with the issues that you're working on in the **NEXT sprint**. It should include issues for next unit with assigned owners.]
-  - ![Screenshot from 2024-12-02 14-52-58](https://github.com/user-attachments/assets/b2cb9c6b-dd05-4da9-ad13-3ba7d69fcd66)
+ ![Screenshot from 2024-12-02 19-32-55](https://github.com/user-attachments/assets/e4f88ed3-c94b-4a01-b1fb-617a28a6f6c1)
+
+**Note**: the completed issues/card are from Milestone 1, while the TODO/Inprogress is from Milestone 2, user auth from Milestone 1 is in progress due to its involvement in Milestone 2.
+
 
 
 ## Issues worked on this sprint
