@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+
+        // Check if we need to navigate to HomeFragment
+        if (intent.getBooleanExtra("navigateToHome", false)) {
+            navController.navigate(R.id.navigation_home)
+        }
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_feed, R.id.navigation_groups

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Recipe Title -->
+        <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Recipe Title" />
+
+        <!-- Recipe Description -->
+        <EditText
+            android:id="@+id/descriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description" />
+
+        <!-- Add Image Button -->
+        <Button
+            android:id="@+id/addImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Image" />
+
+        <!-- Public Switch -->
+        <Switch
+            android:id="@+id/isPublicSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make Recipe Public"
+            android:layout_marginTop="8dp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <!-- Share with Users -->
+        <AutoCompleteTextView
+            android:id="@+id/shareUserEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Share with Users" />
+
+
+        <!-- Share with Groups -->
+        <AutoCompleteTextView
+            android:id="@+id/shareGroupEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Share with Groups" />
+
+        <!-- Ingredients Section -->
+        <LinearLayout
+            android:id="@+id/ingredientsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+        </LinearLayout>
+
+
+        <!-- Steps Input -->
+        <EditText
+            android:id="@+id/stepsEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Steps (one per line)" />
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/submitRecipeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Recipe"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>

@@ -3,4 +3,11 @@
     <string name="title_home">Home</string>
     <string name="title_feed">Recipes</string>
     <string name="title_groups">Groups</string>
+    <string name="homepageword">Welcome to Recipe Sharing App</string>
+    <string name="emailHint">Email</string>
+    <string name="passwordHint">Password</string>
+    <string name="loginButtonText">Login</string>
+    <string name="regesterOption">New user? Register here</string>
+    <string name="login">Login</string>
+    <string name="register_text">Dont have an account? Register here</string>
 </resources>
