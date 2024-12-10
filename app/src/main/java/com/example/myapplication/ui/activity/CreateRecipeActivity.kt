@@ -29,6 +29,7 @@ class CreateRecipeActivity : AppCompatActivity() {
     private lateinit var recipeRepository: RecipeRepository
     private var imagePath: String = "" // For storing image path
     private val ingredientRows = mutableListOf<View>()
+    private val stepRows = mutableListOf<View>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +42,11 @@ class CreateRecipeActivity : AppCompatActivity() {
 
         if (recipeId != null) {
             setupEditRecipe(recipeId) // Load existing recipe data
+            setupStepsSection()
             binding.submitRecipeButton.text = "Edit Recipe"
         } else {
             setupIngredientSection()
+            setupStepsSection()
             binding.submitRecipeButton.text = "Create Recipe"
         }
 
@@ -62,7 +65,54 @@ class CreateRecipeActivity : AppCompatActivity() {
         setupIngredientSection()
 
     }
+    private fun setupStepsSection() {
+        val container = binding.stepsContainer
 
+        // Add initial step row
+        addStepRow(container)
+
+        binding.addStepButton.setOnClickListener {
+            addStepRow(container)
+        }
+    }
+    private fun addStepRow(container: LinearLayout) {
+        val row = layoutInflater.inflate(R.layout.step_row, container, false)
+
+        val stepDescription = row.findViewById<EditText>(R.id.stepDescription)
+        val actionButton = row.findViewById<Button>(R.id.stepActionButton)
+
+        actionButton.setOnClickListener {
+            if (actionButton.text == "+") {
+                addStepRow(container)
+            } else {
+                container.removeView(row)
+                stepRows.remove(row)
+                updateStepButtons()
+            }
+        }
+
+        container.addView(row)
+        stepRows.add(row)
+        updateStepButtons()
+    }
+    private fun updateStepButtons() {
+        for ((index, row) in stepRows.withIndex()) {
+            val button = row.findViewById<Button>(R.id.stepActionButton)
+            button.text = if (index == stepRows.size - 1) "+" else "-"
+        }
+    }
+
+    private fun getStepsData(container: LinearLayout): List<String> {
+        val steps = mutableListOf<String>()
+        for (i in 0 until container.childCount) {
+            val row = container.getChildAt(i)
+            val description = row.findViewById<EditText>(R.id.stepDescription).text.toString()
+            if (description.isNotEmpty()) {
+                steps.add(description)
+            }
+        }
+        return steps
+    }
     private fun setupEditRecipe(recipeId: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             val recipe = recipeRepository.getRecipeById(recipeId)
@@ -83,10 +133,40 @@ class CreateRecipeActivity : AppCompatActivity() {
                             ingredient.amount.split(" ")[1] // Extract unit
                         )
                     }
+
+                    // Populate existing steps
+                    setupStepsSection() // Ensure steps section is initialized
+                    it.steps.forEach { step ->
+                        addStepRowWithValue(step) // Add each step dynamically
+                    }
                 }
             }
         }
     }
+    private fun addStepRowWithValue(stepDescriptionValue: String) {
+        val row = layoutInflater.inflate(R.layout.step_row, binding.stepsContainer, false)
+
+        val stepDescription = row.findViewById<EditText>(R.id.stepDescription)
+        val actionButton = row.findViewById<Button>(R.id.stepActionButton)
+
+        // Populate the step description
+        stepDescription.setText(stepDescriptionValue)
+
+        actionButton.setOnClickListener {
+            if (actionButton.text == "+") {
+                addStepRow(binding.stepsContainer) // Add new row
+            } else {
+                binding.stepsContainer.removeView(row)
+                stepRows.remove(row)
+                updateStepButtons()
+            }
+        }
+
+        binding.stepsContainer.addView(row)
+        stepRows.add(row)
+        updateStepButtons()
+    }
+
 
     private fun addIngredientRowWithValues(name: String, amount: String, unit: String) {
         val row = layoutInflater.inflate(R.layout.ingredient_row, binding.ingredientsContainer, false)
@@ -96,14 +176,23 @@ class CreateRecipeActivity : AppCompatActivity() {
         val unitSpinner = row.findViewById<Spinner>(R.id.ingredientUnit)
         val actionButton = row.findViewById<Button>(R.id.ingredientActionButton)
 
+        // Populate Spinner with units
+        val units = listOf("Cup", "Gram", "Kg", "Table Spoon", "Tea Spoon", "Pc", "L", "Ml", "Pnch")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, units)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        unitSpinner.adapter = adapter
+
+        // Set values for the row
         nameInput.setText(name)
         amountInput.setText(amount)
 
-        // Set Spinner selection
-        val adapter = unitSpinner.adapter as ArrayAdapter<String>
-        val position = adapter.getPosition(unit)
-        unitSpinner.setSelection(position)
+        // Set Spinner selection based on the unit
+        val position = units.indexOf(unit)
+        if (position >= 0) {
+            unitSpinner.setSelection(position)
+        }
 
+        // Action button to remove row
         actionButton.setOnClickListener {
             binding.ingredientsContainer.removeView(row)
             ingredientRows.remove(row)
@@ -121,6 +210,7 @@ class CreateRecipeActivity : AppCompatActivity() {
         val isPublic = binding.isPublicSwitch.isChecked
         val groupInput = binding.shareGroupEditText.text.toString()
         val userInput = binding.shareUserEditText.text.toString()
+        val steps = getStepsData(binding.stepsContainer) // Collect steps
 
         val groupIdList = if (groupInput.isNotEmpty()) groupInput.split(",").map { it.trim() } else emptyList()
         val userIdList = if (userInput.isNotEmpty()) userInput.split(",").map { it.trim() } else emptyList()
@@ -138,7 +228,7 @@ class CreateRecipeActivity : AppCompatActivity() {
                 timestamp = System.currentTimeMillis(),
                 recipeImage = imagePath,
                 ingredients = ingredients,
-                steps = emptyList() // Placeholder
+                steps = steps // Placeholder
             )
 
             lifecycleScope.launch(Dispatchers.IO) {

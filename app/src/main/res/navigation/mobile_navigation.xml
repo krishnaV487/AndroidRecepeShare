@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_groups"
-        android:name="com.example.myapplication.ui.groups.GroupFragment"
+        android:name="com.example.myapplication.ui.groups.GroupsFragment"
         android:label="@string/title_groups"
         tools:layout="@layout/fragment_group" />
 </navigation>

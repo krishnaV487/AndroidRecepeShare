@@ -67,11 +67,23 @@
 
 
         <!-- Steps Input -->
-        <EditText
-            android:id="@+id/stepsEditText"
+        <LinearLayout
+            android:id="@+id/stepsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Steps (one per line)" />
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+            <!-- Steps rows will be added dynamically here -->
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/addStepButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Step"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"/>
+
 
         <!-- Submit Button -->
         <Button

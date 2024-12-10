@@ -48,8 +48,22 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setupUI() {
-        // Initialize RecyclerView
-        recipeAdapter = RecipeAdapter()
+        val currentUserId = auth.currentUser?.uid ?: ""
+
+        // Initialize RecipeAdapter with callbacks
+        recipeAdapter = RecipeAdapter(
+            currentUserId = currentUserId,
+            onEditClick = { recipe ->
+                val intent = Intent(requireContext(), CreateRecipeActivity::class.java)
+                intent.putExtra("recipeId", recipe.recipeId)
+                startActivity(intent)
+            },
+            onDeleteClick = { recipe ->
+                deleteRecipe(recipe.recipeId)
+            }
+        )
+
+        // Setup RecyclerView
         binding.recipesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = recipeAdapter
@@ -60,34 +74,57 @@ class HomeFragment : Fragment() {
 
         binding.loginLogoutButton.setOnClickListener {
             if (auth.currentUser == null) {
-                // Navigate to LoginActivity
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
             } else {
-                // Logout
                 auth.signOut()
                 Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
                 updateLoginLogoutButton()
                 recipeAdapter.submitList(emptyList()) // Clear recipes
-                binding.helloText.text = "Hello! Log in to create!" // Reset text
+                binding.helloText.text = "Hello! Log in to create!"
             }
         }
 
-        // Update Hello Text depending on user status
+        // Update Hello Text
         updateHelloText()
 
         // Create Recipe Button
         binding.createRecipeButton.setOnClickListener {
             if (auth.currentUser != null) {
-                // Navigate to CreateRecipeActivity
                 startActivity(Intent(requireContext(), CreateRecipeActivity::class.java))
             } else {
                 Toast.makeText(requireContext(), "Please log in to create a recipe", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // Fetch Recipes
+        fetchRecipes()
+    }
 
-        // Fetch Recipes if Logged In
-        fetchUserRecipes()
+    private fun fetchRecipes() {
+        val currentUserId = auth.currentUser?.uid ?: return
+        lifecycleScope.launch {
+            try {
+                recipeRepository.fetchRecipesFromFirestore(currentUserId)
+                val recipes = recipeRepository.getLocalRecipes(currentUserId)
+                recipeAdapter.submitList(recipes)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Failed to fetch recipes", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun deleteRecipe(recipeId: String) {
+        lifecycleScope.launch {
+            try {
+                recipeRepository.deleteRecipe(recipeId)
+                Toast.makeText(requireContext(), "Recipe deleted successfully", Toast.LENGTH_SHORT).show()
+                fetchRecipes() // Refresh recipes
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Failed to delete recipe", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -97,12 +134,10 @@ class HomeFragment : Fragment() {
             binding.helloText.text = "Hello! Log in to create!"
         } else {
             val userId = currentUser.uid
-            // Fetch the username from Firestore or Room
             lifecycleScope.launch {
                 val db = AppDb.getInstance(requireContext())
                 val localUser = db.userDao().getUserById(userId)
 
-                // If local user exists, show the name; else, fetch from Firestore
                 if (localUser != null) {
                     binding.helloText.text = "Hello ${localUser.firstName}!"
                 } else {
@@ -127,27 +162,7 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun updateLoginLogoutButton() {
         val currentUser = auth.currentUser
-        if (currentUser == null) {
-            binding.loginLogoutButton.text = "Login"
-        } else {
-            binding.loginLogoutButton.text = "Logout"
-        }
-    }
-
-    private fun fetchUserRecipes() {
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            lifecycleScope.launch {
-                val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
-
-                // Fetch recipes from Firestore and cache in Room
-                recipeRepository.fetchRecipesFromFirestore(userId)
-
-                // Load locally stored recipes for offline access
-                val recipes = recipeRepository.getLocalRecipes(userId)
-                recipeAdapter.submitList(recipes)
-            }
-        }
+        binding.loginLogoutButton.text = if (currentUser == null) "Login" else "Logout"
     }
 
     override fun onDestroyView() {

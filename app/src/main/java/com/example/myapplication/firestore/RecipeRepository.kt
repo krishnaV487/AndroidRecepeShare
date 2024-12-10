@@ -64,4 +64,24 @@ class RecipeRepository(context: Context) {
             e.printStackTrace()
         }
     }
+
+    suspend fun deleteRecipe(recipeId: String) = withContext(Dispatchers.IO) {
+        roomDb.recipeDao().deleteRecipeById(recipeId)
+        firestore.collection("recipes").document(recipeId).delete().await()
+    }
+    suspend fun getRecipesSharedWithUser(userId: String): List<Recipe> = withContext(Dispatchers.IO) {
+        try {
+            val snapshot = firestore.collection("recipes")
+                .whereArrayContains("userIdList", userId)
+                .get()
+                .await()
+
+            return@withContext snapshot.toObjects(Recipe::class.java)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
+    }
+
+
 }
