@@ -4,8 +4,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "groups")
 data class Group(
-    @PrimaryKey val groupId: String,
-    val groupName: String,
-    val createdBy: String, // userId of the creator
-    val members: List<String> // List of userIds
+    @PrimaryKey val groupId: String = "",       // Default value: empty string
+    val groupName: String = "",                 // Default value: empty string
+    val createdBy: String = "",                 // Default value: empty string
+    val members: List<String> = emptyList()     // Default value: empty list
 )

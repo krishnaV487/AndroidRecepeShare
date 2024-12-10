@@ -1,11 +1,13 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ItemGroupBinding
 import com.example.myapplication.db.Group
+import com.example.myapplication.ui.activity.GroupActivity
 
 class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.GroupViewHolder>() {
 
@@ -22,6 +24,12 @@ class GroupsAdapter : RecyclerView.Adapter<GroupsAdapter.GroupViewHolder>() {
         fun bind(group: Group) {
             binding.groupName.text = group.groupName // Corrected from group.name
             binding.groupDescription.text = "Created by: ${group.createdBy}" // Add appropriate description
+            binding.root.setOnClickListener {
+                val intent = Intent(it.context, GroupActivity::class.java)
+                intent.putExtra("groupId", group.groupId)
+                it.context.startActivity(intent)
+            }
+
         }
     }
 

@@ -26,6 +26,7 @@
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.CreateRecipeActivity" />
         <activity android:name=".ui.activity.CreateGroupActivity" />
+        <activity android:name=".ui.activity.GroupActivity" />
 
     </application>
 
