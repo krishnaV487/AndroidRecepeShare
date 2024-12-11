@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Login Message -->
+    <TextView
+        android:id="@+id/loginMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please log in to create and work with Groups"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:paddingBottom="16dp" />
+
+    <!-- Create Group Button -->
+    <Button
+        android:id="@+id/createGroupButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Group"
+        android:visibility="gone" />
+
+    <!-- Groups Label -->
+    <TextView
+        android:id="@+id/groupsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Groups"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:paddingTop="16dp" />
+
+    <!-- RecyclerView for Groups -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/groupsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Recipes Label -->
+    <TextView
+        android:id="@+id/recipesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recipes Shared with You"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:paddingTop="16dp" />
+
+    <!-- RecyclerView for Recipes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recipesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="10"
+    android:padding="4dp">
+
+    <!-- Ingredient Name Input -->
+    <EditText
+        android:id="@+id/ingredientName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:hint="Name"
+        android:inputType="text" />
+
+    <!-- Ingredient Amount Input -->
+    <EditText
+        android:id="@+id/ingredientAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:hint="Amount"
+        android:inputType="numberDecimal" />
+
+    <!-- Unit Spinner -->
+    <Spinner
+        android:id="@+id/ingredientUnit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3" />
+
+    <!-- Add/Remove Button -->
+    <Button
+        android:id="@+id/ingredientActionButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="+"
+        android:textSize="16sp"
+        android:layout_gravity="center" />
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Hello text -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/helloText"
+        />
+    <!-- Login / Logout Button -->
+    <Button
+        android:id="@+id/loginLogoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:layout_marginTop="8dp" />
+
+    <!-- Create New Recipe Button -->
+    <Button
+        android:id="@+id/createRecipeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create a New Recipe"
+        android:layout_marginTop="8dp" />
+
+    <!-- Label for Recipes -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Recipes:"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp" />
+
+    <!-- RecyclerView to display user's recipes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recipesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        android:scrollbars="vertical" />
+
+</LinearLayout>

@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.myapplication.ui.home.GroupsFragment"
+        android:name="com.example.myapplication.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_groups" />
+        tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.myapplication.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_feed"
+        android:name="com.example.myapplication.ui.feed.FeedFragment"
         android:label="@string/title_feed"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_feed" />
 
     <fragment
         android:id="@+id/navigation_groups"
-        android:name="com.example.myapplication.ui.notifications.FeedFragment"
+        android:name="com.example.myapplication.ui.groups.GroupsFragment"
         android:label="@string/title_groups"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_group" />
 </navigation>
