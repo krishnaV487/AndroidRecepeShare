@@ -223,7 +223,8 @@ from the original requirements
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ## App Demo Video
-
+CS388 PRESENTATION AND DEMO: (CLICK ON THE DRIVE LINK TO VIEW PRESENTATION AND DEMO)
+https://drive.google.com/file/d/1SmiMiSnlNlPdj5723au7l9dcWzGdsnwQ/view?usp=sharing 
 - Embed the YouTube/Vimeo link of your Completed Demo Day prep video
 
 
