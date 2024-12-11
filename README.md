@@ -217,6 +217,7 @@ from the original requirements
   - Image Integration (User can add their own image, was not able to configure firestore to work with images with roomdb for local storage)
 [Add video/gif of your current application that shows build progress]
 - CLICK ON THIS LINK FOR VIDEO DEMO OF THE APP
+- https://drive.google.com/file/d/1XBqGPQkJvypi1uObI9sN3aZGmGY7TtZJ/view?usp=sharing
 - https://github.com/user-attachments/assets/7c8f3aa5-ef26-4bd7-9094-6f75d61d2919
 
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
