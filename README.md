@@ -191,18 +191,39 @@ CLICK HERE IF VIDEO ABOVE IS NOT WORKING: [Screencast from 2024-12-02 19-14-08.w
 # Milestone 3 - Build Sprint 2 (Unit 9)
 
 ## GitHub Project board
+![image](https://github.com/user-attachments/assets/096ffc3c-292f-47d6-a080-659d96a7ae42)
 
 [Add screenshot of your Project Board with the updated status of issues for Milestone 3. Note that these should include the updated issues you worked on for this sprint and not be a duplicate of Milestone 2 Project board.] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ## Completed user stories
 
 - List the completed user stories from this unit
+  - Group Sharing
+  - Group Page
+  - Recipe Details Page
+  - Login/Logout Auth
+  - Firestore
+  - Public Feed Page
+  - Create New Recipe Page
+  - Recipe item
+  - Recipe Edit and delete
+
 - List any pending user stories / any user stories you decided to cut
 from the original requirements
-
+  - Enhanced UI
+  - Bug Testing
+  - Security
+  - Advanced Public Feed
+  - Image Integration (User can add their own image, was not able to configure firestore to work with images with roomdb for local storage)
 [Add video/gif of your current application that shows build progress]
+CLICK ON THIS LINK FOR VIDEO DEMO OF THE APP
+https://github.com/user-attachments/assets/7c8f3aa5-ef26-4bd7-9094-6f75d61d2919
+
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ## App Demo Video
 
 - Embed the YouTube/Vimeo link of your Completed Demo Day prep video
+
+
+
