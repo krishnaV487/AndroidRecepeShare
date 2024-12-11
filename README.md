@@ -216,8 +216,8 @@ from the original requirements
   - Advanced Public Feed
   - Image Integration (User can add their own image, was not able to configure firestore to work with images with roomdb for local storage)
 [Add video/gif of your current application that shows build progress]
-CLICK ON THIS LINK FOR VIDEO DEMO OF THE APP
-https://github.com/user-attachments/assets/7c8f3aa5-ef26-4bd7-9094-6f75d61d2919
+- CLICK ON THIS LINK FOR VIDEO DEMO OF THE APP
+- https://github.com/user-attachments/assets/7c8f3aa5-ef26-4bd7-9094-6f75d61d2919
 
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
