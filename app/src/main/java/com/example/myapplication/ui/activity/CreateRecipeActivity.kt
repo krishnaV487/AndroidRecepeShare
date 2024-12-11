@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,16 +11,22 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.MainActivity
+import com.example.myapplication.MembersAdapter
 import com.example.myapplication.R
+import com.example.myapplication.SearchResultAdapter
 import com.example.myapplication.databinding.ActivityCreateRecipeBinding
 import com.example.myapplication.db.Recipe
 import com.example.myapplication.db.Ingredient
 import com.example.myapplication.firestore.RecipeRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.*
 
@@ -30,41 +37,198 @@ class CreateRecipeActivity : AppCompatActivity() {
     private var imagePath: String = "" // For storing image path
     private val ingredientRows = mutableListOf<View>()
     private val stepRows = mutableListOf<View>()
+    private lateinit var userSearchAdapter: SearchResultAdapter
+    private lateinit var groupSearchAdapter: SearchResultAdapter
+    private val firestore = FirebaseFirestore.getInstance()
+    private val selectedUsers = mutableListOf<Pair<String, String>>()
+    private val selectedGroups = mutableListOf<Pair<String, String>>()
+    private val IMAGE_PICK_CODE = 1000
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//
+//
+//        recipeRepository = RecipeRepository(this)
+//// Setup adapters and search fields
+//        setupSearchAdapters()
+//        setupSearchListeners()
+//
+//        val recipeId = intent.getStringExtra("recipeId")
+//
+//        if (recipeId != null) {
+//            setupEditRecipe(recipeId) // Load existing recipe data
+//            setupStepsSection()
+//            binding.submitRecipeButton.text = "Edit Recipe"
+//        } else {
+//            setupIngredientSection()
+//            setupStepsSection()
+//            binding.submitRecipeButton.text = "Create Recipe"
+//        }
+//
+//        binding.submitRecipeButton.setOnClickListener {
+//            if (recipeId != null) {
+//                editRecipe(recipeId) // Update recipe
+//            } else {
+//                createRecipe() // Create new recipe
+//            }        }
+//
+//        binding.addImageButton.setOnClickListener {
+//            // Placeholder for image selection logic
+//            Toast.makeText(this, "Image selection coming soon!", Toast.LENGTH_SHORT).show()
+//            imagePath = "placeholder_image_path" // Simulated path
+//        }
+//        setupIngredientSection()
+//
+//    }
+@SuppressLint("SetTextI18n")
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
+    setContentView(binding.root)
 
-        recipeRepository = RecipeRepository(this)
+    recipeRepository = RecipeRepository(this)
 
-        val recipeId = intent.getStringExtra("recipeId")
+    setupSearchAdapters()
+    setupSearchListeners()
+    setupIngredientSection()
+    setupStepsSection()
 
-        if (recipeId != null) {
-            setupEditRecipe(recipeId) // Load existing recipe data
-            setupStepsSection()
-            binding.submitRecipeButton.text = "Edit Recipe"
-        } else {
-            setupIngredientSection()
-            setupStepsSection()
-            binding.submitRecipeButton.text = "Create Recipe"
-        }
-
-        binding.submitRecipeButton.setOnClickListener {
-            if (recipeId != null) {
-                editRecipe(recipeId) // Update recipe
-            } else {
-                createRecipe() // Create new recipe
-            }        }
-
+    val recipeId = intent.getStringExtra("recipeId")
+    if (recipeId != null) {
+        setupEditRecipe(recipeId)
+        binding.submitRecipeButton.text = "Edit Recipe"
+    } else {
+        binding.submitRecipeButton.text = "Create Recipe"
+    }
         binding.addImageButton.setOnClickListener {
             // Placeholder for image selection logic
-            Toast.makeText(this, "Image selection coming soon!", Toast.LENGTH_SHORT).show()
+            binding.addImageButton.setOnClickListener {
+                val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    type = "image/*" // Allow only image selection
+                }
+                startActivityForResult(intent, IMAGE_PICK_CODE)
+            }
             imagePath = "placeholder_image_path" // Simulated path
         }
-        setupIngredientSection()
-
+    binding.submitRecipeButton.setOnClickListener {
+        if (recipeId != null) {
+            editRecipe(recipeId)
+        } else {
+            createRecipe()
+        }
     }
+}
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK && data != null) {
+            val uri = data.data
+            imagePath = uri.toString() // Store the image URI as a string
+
+            // Display the selected image in an ImageView
+            binding.recipeImageView.apply {
+                visibility = View.VISIBLE
+                setImageURI(uri)
+            }
+        }
+    }
+
+
+    private fun setupSearchAdapters() {
+        // Search Result Adapter for Users
+        userSearchAdapter = SearchResultAdapter { id, name ->
+            selectedUsers.add(id to name)
+            updateSelectedUsers()
+            binding.userSearchRecyclerView.visibility = View.GONE
+        }
+        binding.userSearchRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@CreateRecipeActivity)
+            adapter = userSearchAdapter
+        }
+
+        // Search Result Adapter for Groups
+        groupSearchAdapter = SearchResultAdapter { id, name ->
+            selectedGroups.add(id to name)
+            updateSelectedGroups()
+            binding.groupSearchRecyclerView.visibility = View.GONE
+        }
+        binding.groupSearchRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@CreateRecipeActivity)
+            adapter = groupSearchAdapter
+        }
+    }
+
+    private fun setupSearchListeners() {
+        // Search Users
+        binding.userSearchEditText.addTextChangedListener { query ->
+            searchUsers(query.toString())
+        }
+
+        // Search Groups
+        binding.groupSearchEditText.addTextChangedListener { query ->
+            searchGroups(query.toString())
+        }
+    }
+
+    private fun searchUsers(query: String) {
+        if (query.isBlank()) return
+
+        lifecycleScope.launch {
+            val results = firestore.collection("users")
+                .whereGreaterThanOrEqualTo("firstName", query)
+                .get()
+                .await()
+                .documents.mapNotNull {
+                    val id = it.id
+                    val name = "${it.getString("firstName")} ${it.getString("lastName")}"
+                    id to name
+                }
+
+            userSearchAdapter.submitList(results)
+            binding.userSearchRecyclerView.visibility = if (results.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun searchGroups(query: String) {
+        if (query.isBlank()) return
+
+        lifecycleScope.launch {
+            val results = firestore.collection("groups")
+                .whereGreaterThanOrEqualTo("groupName", query)
+                .get()
+                .await()
+                .documents.mapNotNull {
+                    val id = it.id
+                    val name = it.getString("groupName") ?: "Unknown Group"
+                    id to name
+                }
+
+            groupSearchAdapter.submitList(results)
+            binding.groupSearchRecyclerView.visibility = if (results.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun updateSelectedUsers() {
+        binding.selectedUsersRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@CreateRecipeActivity)
+            adapter = MembersAdapter().apply {
+                submitList(selectedUsers.map { Member(it.first, it.second) })
+            }
+        }
+    }
+
+    private fun updateSelectedGroups() {
+        binding.selectedGroupsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@CreateRecipeActivity)
+            adapter = MembersAdapter().apply {
+                submitList(selectedGroups.map { Member(it.first, it.second) })
+            }
+        }
+    }
+
+
     private fun setupStepsSection() {
         val container = binding.stepsContainer
 
@@ -75,6 +239,8 @@ class CreateRecipeActivity : AppCompatActivity() {
             addStepRow(container)
         }
     }
+
+
     private fun addStepRow(container: LinearLayout) {
         val row = layoutInflater.inflate(R.layout.step_row, container, false)
 
@@ -121,8 +287,8 @@ class CreateRecipeActivity : AppCompatActivity() {
                     binding.titleEditText.setText(it.title)
                     binding.descriptionEditText.setText(it.description)
                     binding.isPublicSwitch.isChecked = it.isPublic
-                    binding.shareGroupEditText.setText(it.groupIdList.joinToString(", "))
-                    binding.shareUserEditText.setText(it.userIdList.joinToString(", "))
+                    binding.groupSearchEditText.setText(it.groupIdList.joinToString(", "))
+                    binding.userSearchEditText.setText(it.userIdList.joinToString(", "))
 
                     // Populate existing ingredients
                     setupIngredientSection()
@@ -208,12 +374,8 @@ class CreateRecipeActivity : AppCompatActivity() {
         val title = binding.titleEditText.text.toString()
         val description = binding.descriptionEditText.text.toString()
         val isPublic = binding.isPublicSwitch.isChecked
-        val groupInput = binding.shareGroupEditText.text.toString()
-        val userInput = binding.shareUserEditText.text.toString()
         val steps = getStepsData(binding.stepsContainer) // Collect steps
 
-        val groupIdList = if (groupInput.isNotEmpty()) groupInput.split(",").map { it.trim() } else emptyList()
-        val userIdList = if (userInput.isNotEmpty()) userInput.split(",").map { it.trim() } else emptyList()
         val ingredients = getIngredientData(binding.ingredientsContainer)
 
         if (title.isNotEmpty() && description.isNotEmpty()) {
@@ -222,8 +384,8 @@ class CreateRecipeActivity : AppCompatActivity() {
                 title = title,
                 description = description,
                 isPublic = isPublic,
-                groupIdList = groupIdList,
-                userIdList = userIdList,
+                groupIdList = selectedGroups.map { it.first },
+                userIdList = selectedUsers.map { it.first },
                 createdBy = FirebaseAuth.getInstance().currentUser?.uid ?: "",
                 timestamp = System.currentTimeMillis(),
                 recipeImage = imagePath,
@@ -247,15 +409,11 @@ class CreateRecipeActivity : AppCompatActivity() {
         val title = binding.titleEditText.text.toString()
         val description = binding.descriptionEditText.text.toString()
         val isPublic = binding.isPublicSwitch.isChecked
-        val groupInput = binding.shareGroupEditText.text.toString()
-        val userInput = binding.shareUserEditText.text.toString()
+        val steps = getStepsData(binding.stepsContainer) // Collect steps
 
         if (title.isNotEmpty() && description.isNotEmpty()) {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
             val recipeId = UUID.randomUUID().toString()
-
-            val groupIdList = if (groupInput.isNotEmpty()) groupInput.split(",").map { it.trim() } else emptyList()
-            val userIdList = if (userInput.isNotEmpty()) userInput.split(",").map { it.trim() } else emptyList()
 
             val ingredients = getIngredientData(binding.ingredientsContainer)
 
@@ -264,13 +422,13 @@ class CreateRecipeActivity : AppCompatActivity() {
                 title = title,
                 description = description,
                 isPublic = isPublic,
-                groupIdList = groupIdList,
-                userIdList = userIdList,
+                groupIdList = selectedGroups.map { it.first },
+                userIdList = selectedUsers.map { it.first },
                 createdBy = userId,
                 timestamp = System.currentTimeMillis(),
                 recipeImage = imagePath,
                 ingredients = ingredients, // Capture ingredients from dynamic rows
-                steps = emptyList() // Placeholder for steps
+                steps = steps // Placeholder for steps
             )
 
 
@@ -338,17 +496,7 @@ class CreateRecipeActivity : AppCompatActivity() {
         updateActionButtons()
     }
 
-    private fun setupAutoSuggestions() {
-        // Fetch users and groups (dummy list for now)
-        val userSuggestions = listOf("user1", "user2", "user3")
-        val groupSuggestions = listOf("group1", "group2", "group3")
 
-        val userAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, userSuggestions)
-        binding.shareUserEditText.setAdapter(userAdapter)
-
-        val groupAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, groupSuggestions)
-        binding.shareGroupEditText.setAdapter(groupAdapter)
-    }
 
 
 

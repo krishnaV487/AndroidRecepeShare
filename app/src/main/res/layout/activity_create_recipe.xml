@@ -24,7 +24,15 @@
             android:layout_height="wrap_content"
             android:hint="Description" />
 
-        <!-- Add Image Button -->
+        <!-- Add Image Button and preview -->
+        <ImageView
+            android:id="@+id/recipeImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:layout_marginTop="8dp" />
+
         <Button
             android:id="@+id/addImageButton"
             android:layout_width="match_parent"
@@ -40,20 +48,65 @@
             android:layout_marginTop="8dp"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-        <!-- Share with Users -->
-        <AutoCompleteTextView
-            android:id="@+id/shareUserEditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Share with Users" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- User Search Section -->
+            <EditText
+                android:id="@+id/userSearchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search for users"
+                android:inputType="text" />
 
-        <!-- Share with Groups -->
-        <AutoCompleteTextView
-            android:id="@+id/shareGroupEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Share with Groups" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userSearchRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:visibility="gone" />
+
+            <!-- Selected Users List -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selected Users:"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectedUsersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Group Search Section -->
+            <EditText
+                android:id="@+id/groupSearchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search for groups"
+                android:inputType="text" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/groupSearchRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:visibility="gone" />
+
+            <!-- Selected Groups List -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selected Groups:"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectedGroupsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <!-- Ingredients Section -->
         <LinearLayout

@@ -46,8 +46,15 @@ class RecipeRepository(context: Context) {
     }
 
     suspend fun getRecipeById(recipeId: String): Recipe? = withContext(Dispatchers.IO) {
-        roomDb.recipeDao().getRecipeById(recipeId)
+        try {
+            val snapshot = firestore.collection("recipes").document(recipeId).get().await()
+            snapshot.toObject(Recipe::class.java)?.copy(recipeId = snapshot.id)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
+
 
 
     // Retrieve locally stored recipes for offline access

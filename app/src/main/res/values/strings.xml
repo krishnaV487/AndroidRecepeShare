@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Recipe Sharing</string>
     <string name="title_home">Home</string>
     <string name="title_feed">Recipes</string>
     <string name="title_groups">Groups</string>

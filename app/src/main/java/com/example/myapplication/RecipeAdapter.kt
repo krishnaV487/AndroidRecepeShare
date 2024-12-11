@@ -1,6 +1,6 @@
 package com.example.myapplication
 
-import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ItemRecipeBinding
 import com.example.myapplication.db.Recipe
+import com.example.myapplication.ui.activity.RecipeDetailsActivity
 
 class RecipeAdapter(
     private val currentUserId: String,
     private val onEditClick: (Recipe) -> Unit,
-    private val onDeleteClick: (Recipe) -> Unit
+    private val onDeleteClick: (Recipe) -> Unit,
+    private val onRecipeClick: (Recipe) -> Unit // Add this for navigating to details
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     private var recipes = listOf<Recipe>()
@@ -28,12 +30,14 @@ class RecipeAdapter(
         }
     }
 
-    class RecipeViewHolder(private val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class RecipeViewHolder(private val binding: ItemRecipeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(
             recipe: Recipe,
             currentUserId: String,
             onEditClick: (Recipe) -> Unit,
-            onDeleteClick: (Recipe) -> Unit
+            onDeleteClick: (Recipe) -> Unit,
+            onRecipeClick: (Recipe) -> Unit
         ) {
             // Set image, title, and description
             binding.recipeTitle.text = recipe.title
@@ -68,6 +72,11 @@ class RecipeAdapter(
                 binding.editButton.visibility = View.GONE
                 binding.deleteButton.visibility = View.GONE
             }
+
+            // Navigate to RecipeDetailsActivity on item click
+            binding.root.setOnClickListener {
+                onRecipeClick(recipe)
+            }
         }
 
         private fun getTimeAgo(timestamp: Long): String {
@@ -93,7 +102,7 @@ class RecipeAdapter(
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipes[position]
-        holder.bind(recipe, currentUserId, onEditClick, onDeleteClick)
+        holder.bind(recipe, currentUserId, onEditClick, onDeleteClick, onRecipeClick)
     }
 
     override fun getItemCount(): Int {

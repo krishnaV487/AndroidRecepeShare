@@ -16,6 +16,7 @@ import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.firestore.RecipeRepository
 import com.example.myapplication.db.AppDb
 import com.example.myapplication.ui.activity.CreateRecipeActivity
+import com.example.myapplication.ui.activity.RecipeDetailsActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -60,6 +61,12 @@ class HomeFragment : Fragment() {
             },
             onDeleteClick = { recipe ->
                 deleteRecipe(recipe.recipeId)
+            },
+            onRecipeClick = { recipe ->
+                // Navigate to RecipeDetailsActivity
+                val intent = Intent(requireContext(), RecipeDetailsActivity::class.java)
+                intent.putExtra("recipeId", recipe.recipeId)
+                startActivity(intent)
             }
         )
 

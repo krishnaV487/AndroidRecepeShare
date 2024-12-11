@@ -16,6 +16,7 @@ import com.example.myapplication.GroupsAdapter
 import com.example.myapplication.RecipeAdapter
 import com.example.myapplication.databinding.FragmentGroupBinding
 import com.example.myapplication.ui.activity.CreateRecipeActivity
+import com.example.myapplication.ui.activity.RecipeDetailsActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -65,6 +66,12 @@ class GroupsFragment : Fragment() {
                         Toast.makeText(requireContext(), "Failed to delete recipe", Toast.LENGTH_SHORT).show()
                     }
                 }
+            },
+            onRecipeClick = { recipe ->
+                // Navigate to RecipeDetailsActivity
+                val intent = Intent(requireContext(), RecipeDetailsActivity::class.java)
+                intent.putExtra("recipeId", recipe.recipeId)
+                startActivity(intent)
             }
         )
 

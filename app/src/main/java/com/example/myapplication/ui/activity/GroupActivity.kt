@@ -1,9 +1,12 @@
 package com.example.myapplication.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.MembersAdapter
@@ -49,7 +52,13 @@ class GroupActivity : AppCompatActivity() {
         recipeAdapter = RecipeAdapter(
             currentUserId = auth.currentUser?.uid ?: "",
             onEditClick = {}, // No editing in this context
-            onDeleteClick = {}
+            onDeleteClick = {},
+            onRecipeClick = { recipe ->
+                Log.d("GroupActivity", "Navigating to RecipeDetailsActivity with recipeId: ${recipe.recipeId}")
+                val intent = Intent(this, RecipeDetailsActivity::class.java)
+                intent.putExtra("recipeId", recipe.recipeId)
+                startActivity(intent)
+            }
         )
         binding.recipesRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@GroupActivity)
